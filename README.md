@@ -42,3 +42,7 @@ Triplestore allowing basic inference
 utils.js
 --------
 Helpers of different sorts
+
+webappcopier.js
+---------------
+Gulp script for updating repository copy of an web app from the working dir
