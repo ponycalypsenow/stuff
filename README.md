@@ -5,6 +5,10 @@ colley.js
 Colley Ranking calculation:
 http://www.colleyrankings.com/matrate.pdf
 
+corr.js
+-------
+Parses TortoiseSVN log looking for correlated files
+
 crawl.js
 --------
 Gets similar artists from last.fm containing a group of tags
