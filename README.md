@@ -17,6 +17,10 @@ httpserver.js
 -------------
 Local Node.js http server for prototyping. Routes, custom handlers, serving content from zip files.
 
+jobcrawl.js
+-----------
+Gets job listings for offline browsing
+
 oanda.js
 --------
 Node.js wrapper for Oanda rest api.
