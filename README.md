@@ -17,6 +17,10 @@ httpserver.js
 -------------
 Local Node.js http server for prototyping. Routes, custom handlers, serving content from zip files.
 
+kb.js
+-----
+Tuples store with basic inference
+
 jobcrawl.js
 -----------
 Gets job listings for offline browsing
