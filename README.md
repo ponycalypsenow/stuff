@@ -17,6 +17,10 @@ httpserver.js
 -------------
 Local Node.js http server for prototyping. Routes, custom handlers, serving content from zip files.
 
+hs.js
+-----
+Harmony search genetic optimization algorithm
+
 kb.js
 -----
 Tuples store with basic inference
