@@ -37,6 +37,11 @@ poly.js
 -------
 Basic polynomial arithmetics
 
+rbm.js
+------
+Restricted Boltzmann machine implementation, based on:
+https://www.cs.toronto.edu/~hinton/absps/guideTR.pdf
+
 smo.js
 ------
 Simplified SMO algorithm for support vector machines:
