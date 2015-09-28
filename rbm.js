@@ -39,7 +39,7 @@ var Rbm = function(visibleNo, hiddenNo){
 			return visible.reduce((sum, visible, i) => {
 				return sum + self.weights[i][j]*((visible.state != undefined)? visible.state : visible);
 			}, self.bias[1][j]);
-		}).map((sum, j) => activation(sum));
+		}).map(sum => activation(sum));
 	}
 	
 	function backward(hidden){
@@ -51,15 +51,15 @@ var Rbm = function(visibleNo, hiddenNo){
 	}
 	
 	function associations(visible, hidden){
-		return visible.map((visible, i) => {
-			return hidden.map((hidden, j) => {
+		return visible.map(visible => {
+			return hidden.map(hidden => {
 				return ((visible.probability != undefined)? visible.probability : visible)*hidden.probability;
 			});
 		});
 	}
 	
-	function train(samples, maxgGenerations){
-		for(var generationNo = 0; generationNo < maxgGenerations; generationNo++){
+	function train(samples, maxGenerations){
+		for(var generationNo = 0; generationNo < maxGenerations; generationNo++){
 			samples.forEach(sample => {
 				var hidden = forward(sample);
 				var visible = backward(hidden);
