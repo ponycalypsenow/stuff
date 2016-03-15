@@ -17,7 +17,7 @@ function Promise(){
 		for(var i = 0; i < self.thenable.length; i++) self.value = self.thenable[i](self.value);
 		self.resolved = true;
 	};
-		
+	
 	return self;
 }
 
@@ -138,27 +138,14 @@ function getAllOccurences(re, s){
 	return ret.filter(unique);
 }
 
-function getLfmTagsUrl(artist){
-	return util.format("http://www.lastfm.pl/music/%s/+tags", artist)
-}
-
 function getLfmSimilarUrl(artist, page){
-	return util.format("http://www.lastfm.pl/music/%s/+similar?page=%d", artist, page)
-}
-
-function getLfmTags(artist){
-	var ret = new Promise();
-	getPage(getLfmTagsUrl(artist)).then(function(data){
-		var re = new RegExp("<a href=\"/tag/(.*?)\" rel=\"tag\"", "g");
-		ret.resolve(getAllOccurences(re, data));
-	});
-	return ret;
+	return util.format("http://www.last.fm/music/%s/+similar?page=%d", artist, page);
 }
 
 function getLfmSimilar(artist, page){
 	var ret = new Promise();
 	getPage(getLfmSimilarUrl(artist, page)).then(function(data){
-		var re = new RegExp("<a href=\"/music/(.*?)\"     class", "g");
+		var re = /href=\"\/music\/(.*?)\"\s+class=\"link/g;
 		ret.resolve(getAllOccurences(re, data));
 	});
 	return ret;
@@ -168,25 +155,21 @@ function getGoldenUrl(artist){
 	return util.format("http://www.goldenmp3.ru/%s", artist.replace(/\W/g, "-").toLowerCase());
 }
 
-function getSimilarArtists(artist, tag, depth){
-	fs.unlink(artist + ".html");
-	function getTagsForArtist(name){
-		getLfmTags(name).then(function(tags){
-			if(tag == "" || tags.some(function(x){ return x.indexOf(tag) >= 0; })){
-				name = removeDiacritics(decodeURIComponent(name).replace(/\+/g, " ").replace(/%2B/g, "and"));
-				fs.appendFile(artist + ".html", util.format("<a href=\"%s\">%s</a><br>\r\n", getGoldenUrl(name), name));
-				console.log(name);
-			}
-		});
+function getSimilarArtists(artist, depth){
+	fs.unlink(artist + ".html", function(){});		
+	function addArtist(name){
+		name = removeDiacritics(decodeURIComponent(name).replace(/\+/g, " ").replace(/&amp;/g, "and"));
+		fs.appendFile(artist + ".html", util.format("<a href=\"%s\">%s</a><br>\r\n", getGoldenUrl(name), name));
+		console.log(name);
 	}
 	
 	for(var page = 1; page <= depth; page++){
 		getLfmSimilar(artist, page).then(function(artists){
 			for(var i = 0; i < artists.length; i++){
-				getTagsForArtist(artists[i]);
+				addArtist(artists[i]);
 			}
 		});
 	}
 }
 
-getSimilarArtists(encodeURIComponent(""), "female%20vocal", 10);
+getSimilarArtists(encodeURIComponent("CHVRCHES"), 10);
